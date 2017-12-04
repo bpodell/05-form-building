@@ -81,7 +81,7 @@ articleView.initNewArticlePage = () => {
 
   // DONE: The new articles we create will be copy/pasted into our source data file.
   // Set up this "export" functionality. We can hide it for now, and show it once we have data to export.
-
+  $('#export-field').hide()
   $('#article-json').on('focus', function(){
     this.select();
   });
@@ -91,6 +91,7 @@ articleView.initNewArticlePage = () => {
 };
 // event listener V
 $('#new-form').on('change', function() {
+  $('#export-field').show()
   articleView.create();
 })
 articleView.create = () => {
@@ -104,10 +105,9 @@ articleView.create = () => {
     category: $('#article-category').val(),
     authorUrl: $('#article-authorUrl').val(),
     body: $('#article-body').val(),
-    publishStatus : ($('input[id="article-published"]:checked').length > 0 ? 'Published' : '(draft)'),
+    publishedOn: $('input[id="article-published"]:checked').length > 0 ? new Date() : null,
     // use the length to see if the checkbox is true or false use a ternary
   })
-
   // DONE: Use our interface to the Handblebars template to put this new article into the DOM:
   // use .toHtml
   $('#articles').append(articleDraft.toHtml())
@@ -118,6 +118,7 @@ articleView.create = () => {
 
   // DONE: Show our export field, and export the new article as JSON, so it's ready to copy/paste into blogArticles.js:
   // use stringify
+  // add a comma in your stringify 
   let articleString = JSON.stringify(articleDraft);
   $('#article-json').val(articleString)
 };
